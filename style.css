@@ -8,6 +8,18 @@
     --white: #E5E5E5;
 }
 
+body {
+    margin: 0 10vw;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    box-sizing: border-box;
+}
+
+h4 {
+    margin: 0;
+}
+
 header {
     display: flex;
     flex-direction: column;
@@ -22,4 +34,58 @@ header h1 {
     font-family: 'DM Sans', sans-serif;
     font-weight: 700;
     line-height: 47px;
+}
+
+.search-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    background-color: var(--grey);
+    padding: 23px;
+    border-radius: 5px;
+}
+
+#search-input {
+    width: 95%;
+    background-color: var(--grey);
+    border: none;
+    font-size: 18px;
+    outline: none;
+}
+
+.filter-container {
+    background-color: var(--blue);
+    width: 223px;
+    display: flex;
+    color: white;
+    border-radius: 5px;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    height: 69px;
+}
+
+.filter-container h4 {
+    padding: 23px 0 23px 23px;
+    width: 95%;
+    font-size: 18px;
+    height: 100%;
+}
+
+.filter-container i {
+    padding: 23px 23px 23px 0;
+    height: 100%;
+}
+
+.filter-input {
+    background: none;
+    border: none;
+    outline: none;
+    color: white;
+    padding: 23px 0 23px 23px;
+    width: 95%;
+    font-size: 18px;
+    height: 100%;
+    z-index: 1000;
 }
