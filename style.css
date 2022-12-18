@@ -16,8 +16,18 @@ body {
     box-sizing: border-box;
 }
 
-h4 {
+h3, h4, p {
     margin: 0;
+    padding: 0;
+}
+
+h3 {
+    font-size: 18px;
+}
+
+ul {
+    padding: 0;
+    list-style-type: none;
 }
 
 header {
@@ -88,4 +98,59 @@ header h1 {
     font-size: 18px;
     height: 100%;
     z-index: 1000;
+}
+
+.recipe-container {
+    display: flex;
+    flex-direction: column;
+    height: 364px;
+    width: 380px;
+    background-color: var(--grey);
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.recipe-img {
+    height: 50%;
+    background-color: var(--brown);
+}
+
+.recipe-info {
+    padding: 20px;
+}
+
+.recipe-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.recipe-header p {
+    font-size: 18px;
+}
+
+.recipe-time {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.recipe-body {
+    display: flex;
+    width: 100%;
+}
+
+.recipe-ingredients{
+    font-size: 12px;
+    width: 50%;
+    box-sizing: border-box;
+}
+
+.recipe-description {
+    width: 50%;
+}
+
+.recipe-description p {
+    font-size: 12px;
 }
