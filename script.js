@@ -53,7 +53,7 @@ async function displayOneRecipe(recipe) {
 
 async function init() {
     initFiltersContainers()
-    displayOneRecipe(recipes[0])
+    recipes.map(recipe => displayOneRecipe(recipe))
 }
 
 init()
