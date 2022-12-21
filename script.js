@@ -51,16 +51,22 @@ async function displayOneRecipe(recipe) {
     document.getElementById('recipes-section').appendChild(recipeContainer)
 }
 
+async function displayRecipes(results) {
+    document.getElementById('recipes-section').innerHTML = '';
+    return results.map(recipe => displayOneRecipe(recipe))
+}
+
 async function initSearch() {
     const searchInput = document.getElementById('search-input')
     searchInput.addEventListener('keyup', (e) => {
         const inputString = e.target.value
         
         if(inputString.length > 2 ) {
-            const results = getSearchedRecipes(inputString).then(results => {
-                document.getElementById('recipes-section').innerHTML = '';
-                results.map(recipe => displayOneRecipe(recipe));
+            getSearchedRecipes(inputString).then(results => {
+                displayRecipes(results);
             })
+        } else {
+            displayRecipes(recipes);
         }
     })
 }
@@ -102,8 +108,8 @@ async function getSearchedRecipes(inputString){
 
 async function init() {
     initFiltersContainers()
+    displayRecipes(recipes);
     initSearch()
-   // getSearchedRecipes.map(recipe => displayOneRecipe(recipe))
 }
 
 init()
