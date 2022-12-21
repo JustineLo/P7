@@ -52,15 +52,20 @@ async function displayOneRecipe(recipe) {
 }
 
 async function displayRecipes(results) {
-    document.getElementById('recipes-section').innerHTML = '';
-    return results.map(recipe => displayOneRecipe(recipe))
+    if(results.length === 0) {
+        return handleZeroResults()
+    } else {
+        document.getElementById('recipes-section').innerHTML = '';
+        return results.map(recipe => displayOneRecipe(recipe))
+    }
+    
 }
 
-async function initSearch() {
+async function handleSearch() {
     const searchInput = document.getElementById('search-input')
+
     searchInput.addEventListener('keyup', (e) => {
         const inputString = e.target.value
-        
         if(inputString.length > 2 ) {
             getSearchedRecipes(inputString).then(results => {
                 displayRecipes(results);
@@ -79,11 +84,13 @@ async function getSearchedRecipes(inputString){
         let added = false;
         const recipe = recipes[i]
 
+        // check if name contains inputString
         if(recipe.name.toLowerCase().includes(inputString.toLowerCase())) {
             results.push(recipe)
             added = true;
         }
 
+        // check if ingredients contains inputString
         if(!added) {
             const ingredients = recipe.ingredients
             for(let j = 0; j < ingredients.length; j++) {
@@ -95,6 +102,7 @@ async function getSearchedRecipes(inputString){
             }
         }
 
+        // check if description contains inputString
         if(!added) {
             const description = recipe.description
             if(description.toLowerCase().includes(inputString.toLowerCase())) {
@@ -106,10 +114,16 @@ async function getSearchedRecipes(inputString){
     return results
 }
 
+async function handleZeroResults() {
+    const recipesSection = document.getElementById('recipes-section')
+    recipesSection.innerHTML = `Aucune recette ne correspond à votre critère... vous pouvez
+    chercher « tarte aux pommes », « poisson », etc.`
+}
+
 async function init() {
     initFiltersContainers()
     displayRecipes(recipes);
-    initSearch()
+    handleSearch()
 }
 
 init()
