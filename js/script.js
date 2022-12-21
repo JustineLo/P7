@@ -1,6 +1,8 @@
 import recipes from './recipes.js'
 import { handleTags } from './tags.js'
 
+let displayedRecipes = recipes;
+
 async function initFiltersContainers() {
     const ingredientsFilter = document.getElementById('ingredients-filter-container')
 
@@ -13,14 +15,13 @@ async function initFiltersContainers() {
 
 }
 
-async function handleFilters() {
+async function handleFiltersSearch() {
     const ingredientsFilter = document.getElementById('ingredients-filter-input')
     ingredientsFilter.addEventListener('keyup', (e) => {
         const inputString = e.target.value
-        getSearchedRecipes(inputString).then(results => {
+        getIngredientResults(inputString).then(results => {
             displayRecipes(results);
         })
-        
     })
 }
 
@@ -80,9 +81,11 @@ async function handleSearchInput() {
         const inputString = e.target.value
         if(inputString.length > 2 ) {
             getSearchedRecipes(inputString).then(results => {
+                displayedRecipes = results
                 displayRecipes(results);
             })
         } else {
+            displayedRecipes = recipes
             displayRecipes(recipes);
         }
     })
@@ -96,11 +99,10 @@ async function getSearchedRecipes(inputString) {
     results = results.concat(await getDescriptionResults(inputString))
     const uniqueResults = [...new Set(results)]
     return uniqueResults
-
 }
 
 async function getNameResults(inputString) {
-    const results = recipes.filter(recipe => {
+    const results = displayedRecipes.filter(recipe => {
         const inputStringLowerCase = inputString.toLowerCase()
         const recipeName = recipe.name.toLowerCase()
         return recipeName.includes(inputStringLowerCase)
@@ -109,7 +111,7 @@ async function getNameResults(inputString) {
 }
 
 async function getIngredientResults(inputString) {
-    const results = recipes.filter(recipe => {
+    const results = displayedRecipes.filter(recipe => {
         const inputStringLowerCase = inputString.toLowerCase()
         const recipeIngredients = recipe.ingredients.map(ingredient => ingredient.ingredient.toLowerCase())
         return recipeIngredients.includes(inputStringLowerCase)
@@ -118,7 +120,7 @@ async function getIngredientResults(inputString) {
 }
 
 async function getDescriptionResults(inputString) {
-    const results = recipes.filter(recipe => {
+    const results = displayedRecipes.filter(recipe => {
         const inputStringLowerCase = inputString.toLowerCase()
         const recipeDescription = recipe.description.toLowerCase()
         return recipeDescription.includes(inputStringLowerCase)
