@@ -51,9 +51,55 @@ async function displayOneRecipe(recipe) {
     document.getElementById('recipes-section').appendChild(recipeContainer)
 }
 
+async function displayRecipes(results) {
+    if(results.length === 0) {
+        return handleZeroResults()
+    } else {
+        document.getElementById('recipes-section').innerHTML = '';
+        return results.map(recipe => displayOneRecipe(recipe))
+    }
+    
+}
+
+async function handleSearch() {
+    const searchInput = document.getElementById('search-input')
+
+    searchInput.addEventListener('keyup', (e) => {
+        const inputString = e.target.value
+        if(inputString.length > 2 ) {
+            getSearchedRecipes(inputString).then(results => {
+                displayRecipes(results);
+            })
+        } else {
+            displayRecipes(recipes);
+        }
+    })
+}
+
+async function getSearchedRecipes(inputString){
+
+    const results = recipes.filter(recipe => {
+        const inputStringLowerCase = inputString.toLowerCase()
+        const recipeName = recipe.name.toLowerCase()
+        const recipeIngredients = recipe.ingredients.map(ingredient => ingredient.ingredient.toLowerCase())
+        const recipeDescription = recipe.description.toLowerCase()
+
+        return recipeName.includes(inputStringLowerCase) || recipeIngredients.includes(inputStringLowerCase) || recipeDescription.includes(inputStringLowerCase)
+    })
+
+    return results
+}
+
+async function handleZeroResults() {
+    const recipesSection = document.getElementById('recipes-section')
+    recipesSection.innerHTML = `Aucune recette ne correspond à votre critère... vous pouvez
+    chercher « tarte aux pommes », « poisson », etc.`
+}
+
 async function init() {
     initFiltersContainers()
-    recipes.map(recipe => displayOneRecipe(recipe))
+    displayRecipes(recipes);
+    handleSearch()
 }
 
 init()
