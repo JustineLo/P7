@@ -51,9 +51,59 @@ async function displayOneRecipe(recipe) {
     document.getElementById('recipes-section').appendChild(recipeContainer)
 }
 
+async function initSearch() {
+    const searchInput = document.getElementById('search-input')
+    searchInput.addEventListener('keyup', (e) => {
+        const inputString = e.target.value
+        
+        if(inputString.length > 2 ) {
+            const results = getSearchedRecipes(inputString).then(results => {
+                document.getElementById('recipes-section').innerHTML = '';
+                results.map(recipe => displayOneRecipe(recipe));
+            })
+        }
+    })
+}
+
+async function getSearchedRecipes(inputString){
+
+    let results = []
+
+    for(let i = 0; i < recipes.length; i++) {
+        let added = false;
+        const recipe = recipes[i]
+
+        if(recipe.name.toLowerCase().includes(inputString.toLowerCase())) {
+            results.push(recipe)
+            added = true;
+        }
+
+        if(!added) {
+            const ingredients = recipe.ingredients
+            for(let j = 0; j < ingredients.length; j++) {
+                const ingredient = ingredients[j].ingredient
+                if(ingredient.toLowerCase().includes(inputString.toLowerCase())) {
+                    results.push(recipe)
+                    added = true;
+                }
+            }
+        }
+
+        if(!added) {
+            const description = recipe.description
+            if(description.toLowerCase().includes(inputString.toLowerCase())) {
+                results.push(recipe)
+                added = true;
+            }
+        }
+    }
+    return results
+}
+
 async function init() {
     initFiltersContainers()
-    recipes.map(recipe => displayOneRecipe(recipe))
+    initSearch()
+   // getSearchedRecipes.map(recipe => displayOneRecipe(recipe))
 }
 
 init()
