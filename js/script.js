@@ -1,4 +1,5 @@
 import recipes from './recipes.js'
+import { handleTags } from './tags.js'
 
 async function initFiltersContainers() {
     const ingredientsFilter = document.getElementById('ingredients-filter-container')
@@ -100,6 +101,7 @@ async function init() {
     initFiltersContainers()
     displayRecipes(recipes);
     handleSearch()
+    handleTags()
 }
 
 init()
