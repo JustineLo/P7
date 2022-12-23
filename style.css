@@ -64,6 +64,18 @@ header h1 {
     outline: none;
 }
 
+.tag-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: fit-content;
+    height: 37px;
+    padding: 10px 20px;
+    gap: 10px;
+    color: white;
+    border-radius: 5px;
+}
+
 .filter-container {
     background-color: var(--blue);
     width: 223px;

@@ -22,10 +22,15 @@ async function initFiltersContainers() {
     })
 
     filterInput.addEventListener('keyup', (e) => {
-        const inputString = e.target.value;
-        const ingredientsList = getIngredientsList(displayedRecipes);
-        const results = ingredientsList.filter(item => item.toLocaleLowerCase().includes(inputString.toLocaleLowerCase()))
-        displayIngredientsList(results)
+
+        if(e.key === 'Enter') {
+            createTag(e.target.value)
+        } else {
+            const inputString = e.target.value;
+            const ingredientsList = getIngredientsList(displayedRecipes);
+            const results = ingredientsList.filter(item => item.toLocaleLowerCase().includes(inputString.toLocaleLowerCase()))
+            displayIngredientsList(results)
+        }
     })
 
     ingredientsFilter.addEventListener('focusout', (e) => {
@@ -57,6 +62,18 @@ function getIngredientsList(recipesList) {
     const ingredients = recipesList.map(recipe => recipe.ingredients).flat()
     const uniqueIngredients = [...new Set(ingredients.map(ingredient => ingredient.ingredient.toLocaleLowerCase()))]
     return uniqueIngredients
+}
+
+function createTag(tag) {
+    const tagSection = document.getElementById('tags-section')
+    const tagContainer = document.createElement('div');
+    tagContainer.setAttribute('class', 'tag-container')
+    tagContainer.innerHTML = `
+        <p>${tag}</p>
+        <i class="fa-regular fa-circle-xmark"></i>
+    `
+    tagContainer.style.backgroundColor = 'var(--blue)'
+    tagSection.appendChild(tagContainer)
 }
 
 async function handleFiltersSearch(items) {
