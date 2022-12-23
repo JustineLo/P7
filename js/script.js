@@ -12,7 +12,7 @@ async function initFiltersContainers() {
     //         displayFilterInput(searchContainer)
     //     }
     // })
-
+    //handleFiltersSearch()
 }
 
 async function handleFiltersSearch() {
@@ -95,10 +95,10 @@ async function getSearchedRecipes(inputString) {
 
     const results = recipes.filter(recipe => {
         const inputStringLowerCase = inputString.toLowerCase()
-        const recipeName = recipe.name.toLowerCase()
-        const recipeIngredients = recipe.ingredients.map(ingredient => ingredient.ingredient.toLowerCase())
-        const recipeDescription = recipe.description.toLowerCase()
-        return recipeName.includes(inputStringLowerCase) || recipeIngredients.includes(inputStringLowerCase) || recipeDescription.includes(inputStringLowerCase)
+        const checkRecipeName = recipe.name.toLowerCase().includes(inputStringLowerCase)
+        const checkRecipeIngredients = recipe.ingredients.some(ingredient => ingredient.ingredient.toLowerCase().includes(inputStringLowerCase))
+        const checkRecipeDescription = recipe.description.toLowerCase().includes(inputStringLowerCase)
+        return checkRecipeName || checkRecipeIngredients || checkRecipeDescription
     })
 
     return results
