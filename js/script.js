@@ -5,23 +5,29 @@ let displayedRecipes = recipes;
 
 async function initFiltersContainers() {
     const ingredientsFilter = document.getElementById('ingredients-filter-container')
+    const filterLabel = document.getElementById('ingredients-filter-label')
+    const filterInput = document.getElementById('ingredients-filter-input')
+    const filterChevron = document.getElementById('ingredients-filter-chevron')
+    const filterList = document.getElementById('ingredients-filter-list')
 
     ingredientsFilter.addEventListener('click', (e) => {
-        const filterLabel = document.getElementById('ingredients-filter-label')
-        const filterInput = document.getElementById('ingredients-filter-input')
-        const filterChevrron = document.getElementById('ingredients-filter-chevron')
-        filterChevrron.classList.remove('fa-chevron-down')
-        filterChevrron.classList.add('fa-chevron-up')
+        
+        filterChevron.classList.remove('fa-chevron-down')
+        filterChevron.classList.add('fa-chevron-up')
         filterLabel.style.display = 'none';
+        ingredientsFilter.style.width = '667px'
+        filterList.style.display = 'block';
         filterInput.focus();
     })
 
     ingredientsFilter.addEventListener('focusout', (e) => {
-        const filterLabel = document.getElementById('ingredients-filter-label')
-        const filterInput = document.getElementById('ingredients-filter-input')
         if(filterInput.value.length === 0) {
             filterLabel.style.display = 'block';
         }
+        filterChevron.classList.remove('fa-chevron-up')
+        filterChevron.classList.add('fa-chevron-down')
+        ingredientsFilter.style.width = '223px'
+        filterList.style.display = 'none';
     })
     //handleFiltersSearch()
 }
