@@ -6,33 +6,46 @@ let displayedRecipes = recipes;
 async function initFiltersContainers() {
     const ingredientsFilter = document.getElementById('ingredients-filter-container')
 
-    // ingredientsFilter.addEventListener('click', (e) => {
-    //     const searchContainer = e.target.parentNode
-    //     if(searchContainer.classList.contains('filter-container')) {
-    //         displayFilterInput(searchContainer)
-    //     }
-    // })
-    handleFiltersSearch()
+    ingredientsFilter.addEventListener('click', (e) => {
+        const filterLabel = document.getElementById('ingredients-filter-label')
+        const filterInput = document.getElementById('ingredients-filter-input')
+        const filterChevrron = document.getElementById('ingredients-filter-chevron')
+        filterChevrron.classList.remove('fa-chevron-down')
+        filterChevrron.classList.add('fa-chevron-up')
+        filterLabel.style.display = 'none';
+        filterInput.focus();
+    })
+
+    ingredientsFilter.addEventListener('focusout', (e) => {
+        const filterLabel = document.getElementById('ingredients-filter-label')
+        const filterInput = document.getElementById('ingredients-filter-input')
+        if(filterInput.value.length === 0) {
+            filterLabel.style.display = 'block';
+        }
+    })
+    //handleFiltersSearch()
 }
 
 async function handleFiltersSearch() {
     const ingredientsFilter = document.getElementById('ingredients-filter-input')
+    let filteredRecipes = [];
     ingredientsFilter.addEventListener('keyup', (e) => {
         const inputStringLowerCase = e.target.value.toLowerCase()
-        displayedRecipes = displayedRecipes.filter(recipe => {
+        filteredRecipes = displayedRecipes.filter(recipe => {
             return recipe.ingredients.some(ingredient => {
                 return ingredient.ingredient.toLowerCase().includes(inputStringLowerCase)
             });
         })
-        displayRecipes(displayedRecipes);
+        displayRecipes(filteredRecipes);
+    })
+    ingredientsFilter.addEventListener('focusout', () => {
+        displayedRecipes = filteredRecipes;
+        console.log(displayedRecipes);
     })
 }
 
 async function displayFilterInput(searchContainer) {
-    const filterInput = document.createElement('input');
-    filterInput.setAttribute('type', 'text');
-    filterInput.setAttribute('class', 'filter-input');
-    searchContainer.innerHTML = filterInput.outerHTML + `<i class="fa-solid fa-chevron-down"></i>`;
+    
     filterInput.focus();
 }
 
@@ -81,9 +94,10 @@ async function handleSearchInput() {
     const searchInput = document.getElementById('search-input')
 
     searchInput.addEventListener('keyup', (e) => {
-        const inputString = e.target.value
+        const inputString = e.target.value;
+        console.log(displayedRecipes);
         if(inputString.length > 2 ) {
-            getSearchedRecipes(inputString).then(results => {
+            getSearchedRecipes(inputString, displayedRecipes).then(results => {
                 displayedRecipes = results;
                 displayRecipes(displayedRecipes);
             })
@@ -94,9 +108,8 @@ async function handleSearchInput() {
     })
 }
 
-async function getSearchedRecipes(inputString) {
-
-    const results = recipes.filter(recipe => {
+async function getSearchedRecipes(inputString, displayedRecipes) {
+    const results = displayedRecipes.filter(recipe => {
         const inputStringLowerCase = inputString.toLowerCase()
         const checkRecipeName = recipe.name.toLowerCase().includes(inputStringLowerCase)
         const checkRecipeIngredients = recipe.ingredients.some(ingredient => ingredient.ingredient.toLowerCase().includes(inputStringLowerCase))
