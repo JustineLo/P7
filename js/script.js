@@ -93,38 +93,14 @@ async function handleSearchInput() {
 
 async function getSearchedRecipes(inputString) {
 
-    let results = []
-    results = results.concat(await getNameResults(inputString))
-    results = results.concat(await getIngredientResults(inputString))
-    results = results.concat(await getDescriptionResults(inputString))
-    const uniqueResults = [...new Set(results)]
-    return uniqueResults
-}
-
-async function getNameResults(inputString) {
-    const results = displayedRecipes.filter(recipe => {
+    const results = recipes.filter(recipe => {
         const inputStringLowerCase = inputString.toLowerCase()
         const recipeName = recipe.name.toLowerCase()
-        return recipeName.includes(inputStringLowerCase)
-    })
-    return results
-}
-
-async function getIngredientResults(inputString) {
-    const results = displayedRecipes.filter(recipe => {
-        const inputStringLowerCase = inputString.toLowerCase()
         const recipeIngredients = recipe.ingredients.map(ingredient => ingredient.ingredient.toLowerCase())
-        return recipeIngredients.includes(inputStringLowerCase)
-    })
-    return results
-}
-
-async function getDescriptionResults(inputString) {
-    const results = displayedRecipes.filter(recipe => {
-        const inputStringLowerCase = inputString.toLowerCase()
         const recipeDescription = recipe.description.toLowerCase()
-        return recipeDescription.includes(inputStringLowerCase)
+        return recipeName.includes(inputStringLowerCase) || recipeIngredients.includes(inputStringLowerCase) || recipeDescription.includes(inputStringLowerCase)
     })
+
     return results
 }
 
