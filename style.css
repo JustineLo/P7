@@ -104,15 +104,29 @@ header h1 {
     z-index: 1000;
 }
 
-#ingredients-filter-list {
+.filter-list {
     display: none;
-    width: 667px;
-    height: 397px;
-    position: relative;
-    bottom: 5px;
-    z-index: 3000;
     background-color: var(--blue);
     border-radius: 5px;
+    width: 667px;
+    height: 304px;
+    position: relative;
+    bottom: 5px;
+    flex-wrap: wrap;
+    padding: 19px;
+}
+
+.filter-list button {
+    background: none;
+    border: none;
+    outline: none;
+    color: white;
+    width: 33%;
+    text-align: start;
+}
+
+.filter-list button:first-letter {
+    text-transform: uppercase;
 }
 
 #recipes-section {
