@@ -11,13 +11,21 @@ async function initFiltersContainers() {
     const filterList = document.getElementById('ingredients-filter-list')
 
     ingredientsFilter.addEventListener('click', (e) => {
+        const ingredientsList = getIngredientsList(displayedRecipes)
         filterChevron.classList.remove('fa-chevron-down')
         filterChevron.classList.add('fa-chevron-up')
         filterLabel.style.display = 'none';
         ingredientsFilter.style.width = '667px'
         filterList.style.display = 'flex';
         filterInput.focus();
-        displayIngredientsList()
+        displayIngredientsList(ingredientsList)
+    })
+
+    filterInput.addEventListener('keyup', (e) => {
+        const inputString = e.target.value;
+        const ingredientsList = getIngredientsList(displayedRecipes);
+        const results = ingredientsList.filter(item => item.toLocaleLowerCase().includes(inputString.toLocaleLowerCase()))
+        displayIngredientsList(results)
     })
 
     ingredientsFilter.addEventListener('focusout', (e) => {
@@ -30,14 +38,13 @@ async function initFiltersContainers() {
         filterList.innerHTML = '';
         filterList.style.display = 'none';
     })
-    //handleFiltersSearch()
+    
 }
 
-function displayIngredientsList() {
+function displayIngredientsList(list) {
     const ingredientsList = document.getElementById('ingredients-filter-list')
-    const ingredients = recipes.map(recipe => recipe.ingredients).flat()
-    const uniqueIngredients = [...new Set(ingredients.map(ingredient => ingredient.ingredient.toLocaleLowerCase()))]
-    const thirtyFirstItems = uniqueIngredients.slice(0, 30)
+    ingredientsList.innerHTML = '';
+    const thirtyFirstItems = list.slice(0, 30)
     thirtyFirstItems.map(ingredient => {
         const button = document.createElement('button');
         button.setAttribute('class', 'list-button')
@@ -46,21 +53,25 @@ function displayIngredientsList() {
     })
 }
 
-async function handleFiltersSearch() {
-    const ingredientsFilter = document.getElementById('ingredients-filter-input')
-    let filteredRecipes = [];
-    ingredientsFilter.addEventListener('keyup', (e) => {
-        const inputStringLowerCase = e.target.value.toLowerCase()
-        filteredRecipes = displayedRecipes.filter(recipe => {
-            return recipe.ingredients.some(ingredient => {
-                return ingredient.ingredient.toLowerCase().includes(inputStringLowerCase)
-            });
+function getIngredientsList(recipesList) {
+    const ingredients = recipesList.map(recipe => recipe.ingredients).flat()
+    const uniqueIngredients = [...new Set(ingredients.map(ingredient => ingredient.ingredient.toLocaleLowerCase()))]
+    return uniqueIngredients
+}
+
+async function handleFiltersSearch(items) {
+    const ingredientsList = document.getElementById('ingredients-filter-list')
+    const filterInput = document.getElementById('ingredients-filter-input')
+    filterInput.addEventListener('keyup', (e) => {
+        const inputString = e.target.value;
+        const results = items.filter(item => item.toLocaleLowerCase().includes(inputString.toLocaleLowerCase()))
+        ingredientsList.innerHTML = '';
+        results.map(ingredient => {
+            const button = document.createElement('button');
+            button.setAttribute('class', 'list-button')
+            button.innerHTML = ingredient;
+            ingredientsList.appendChild(button)
         })
-        displayRecipes(filteredRecipes);
-    })
-    ingredientsFilter.addEventListener('focusout', () => {
-        displayedRecipes = filteredRecipes;
-        console.log(displayedRecipes);
     })
 }
 
