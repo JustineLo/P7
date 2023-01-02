@@ -62,8 +62,6 @@ function displayIngredientsList(list) {
                 return recipe.ingredients.some(ingredient => ingredient.ingredient.toLowerCase().includes(ingredientName.toLowerCase()))
             })
             displayRecipes(displayedRecipes)
-            
-            
         })
         ingredientsList.appendChild(button)
     })
@@ -78,11 +76,20 @@ function getIngredientsList(recipesList) {
 function createTag(tag) {
     const tagSection = document.getElementById('tags-section')
     const tagContainer = document.createElement('div');
-    tagContainer.setAttribute('class', 'tag-container')
-    tagContainer.innerHTML = `
-        <p>${tag}</p>
-        <i class="fa-regular fa-circle-xmark"></i>
-    `
+    tagContainer.setAttribute('class', 'tag-container');
+
+    const tagLabel = document.createElement('p');
+    tagLabel.innerHTML = tag;
+    const tagCloseButton = document.createElement('button');
+    tagCloseButton.innerHTML = `<i class="fa-regular fa-circle-xmark"></i>`
+    tagCloseButton.addEventListener('click', (e) => {
+        e.target.parentElement.parentElement.remove()
+        displayedRecipes = recipes;
+        displayRecipes(displayedRecipes)
+    })
+   
+    tagContainer.appendChild(tagLabel)
+    tagContainer.appendChild(tagCloseButton)
     tagContainer.style.backgroundColor = 'var(--blue)'
     tagSection.appendChild(tagContainer)
 } 
