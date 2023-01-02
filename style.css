@@ -104,6 +104,10 @@ header h1 {
     height: 100%;
 }
 
+#ingredients-filter-input {
+    display: none;
+}
+
 .filter-input {
     background: none;
     border: none;
@@ -116,8 +120,11 @@ header h1 {
     z-index: 1000;
 }
 
-.filter-list {
+#ingredients-filter-list {
     display: none;
+}
+
+.filter-list {
     background-color: var(--blue);
     border-radius: 5px;
     width: 667px;

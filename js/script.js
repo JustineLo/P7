@@ -10,40 +10,43 @@ async function initFiltersContainers() {
     const filterChevron = document.getElementById('ingredients-filter-chevron')
     const filterList = document.getElementById('ingredients-filter-list')
 
-    ingredientsFilter.addEventListener('click', (e) => {
-        const ingredientsList = getIngredientsList(displayedRecipes)
-        filterChevron.classList.remove('fa-chevron-down')
-        filterChevron.classList.add('fa-chevron-up')
-        filterLabel.style.display = 'none';
-        ingredientsFilter.style.width = '667px'
-        filterList.style.display = 'flex';
-        filterInput.focus();
-        displayIngredientsList(ingredientsList)
+    ingredientsFilter.addEventListener('click', () => {
+        if(getComputedStyle(filterList).display == "none") {
+            console.log("just checking");
+            filterInput.style.display = "flex";
+            const ingredientsList = getIngredientsList(displayedRecipes)
+            filterChevron.classList.remove('fa-chevron-down')
+            filterChevron.classList.add('fa-chevron-up')
+            filterLabel.style.display = 'none';
+            filterList.style.display = 'flex';
+            ingredientsFilter.style.width = '667px'
+            filterInput.focus();
+            displayIngredientsList(ingredientsList)
+        } else {
+            closeFilterList()
+        }
+
     })
 
     filterInput.addEventListener('keyup', (e) => {
-
-        if(e.key === 'Enter') {
-            createTag(e.target.value)
-        } else {
-            const inputString = e.target.value;
-            const ingredientsList = getIngredientsList(displayedRecipes);
-            const results = ingredientsList.filter(item => item.toLocaleLowerCase().includes(inputString.toLocaleLowerCase()))
-            displayIngredientsList(results)
-        }
+        const inputString = e.target.value;
+        const ingredientsList = getIngredientsList(displayedRecipes);
+        const results = ingredientsList.filter(item => item.toLocaleLowerCase().includes(inputString.toLocaleLowerCase()))
+        displayIngredientsList(results)
+        // createTag(e.target.value)
+        //     getSearchedRecipes()
     })
 
-    ingredientsFilter.addEventListener('focusout', (e) => {
-        if(filterInput.value.length === 0) {
-            filterLabel.style.display = 'block';
-        }
+
+    function closeFilterList() {
         filterChevron.classList.remove('fa-chevron-up')
         filterChevron.classList.add('fa-chevron-down')
         ingredientsFilter.style.width = '223px'
         filterList.innerHTML = '';
-        filterList.style.display = 'none';
-    })
-    
+        filterList.style.display = "none";
+        filterInput.style.display = "none";
+        filterLabel.style.display = 'block';
+    }
 }
 
 function displayIngredientsList(list) {
@@ -54,6 +57,10 @@ function displayIngredientsList(list) {
         const button = document.createElement('button');
         button.setAttribute('class', 'list-button')
         button.innerHTML = ingredient;
+        button.addEventListener('click', (e) => {
+            console.log("click");
+            button.focus();
+        })
         ingredientsList.appendChild(button)
     })
 }
@@ -92,15 +99,10 @@ async function handleFiltersSearch(items) {
     })
 }
 
-async function displayFilterInput(searchContainer) {
-    
-    filterInput.focus();
-}
-
 async function displayOneRecipe(recipe) {
     const recipeContainer = document.createElement('div');
     recipeContainer.setAttribute('class', 'recipe-container');
-    recipeContainer.innerHTML = `
+    recipeContainer.innerHTML = ` 
         <div class="recipe-img">
            
         </div>
