@@ -12,7 +12,6 @@ async function initFiltersContainers() {
 
     ingredientsFilter.addEventListener('click', () => {
         if(getComputedStyle(filterList).display == "none") {
-            console.log("just checking");
             filterInput.style.display = "flex";
             const ingredientsList = getIngredientsList(displayedRecipes)
             filterChevron.classList.remove('fa-chevron-down')
@@ -53,13 +52,18 @@ function displayIngredientsList(list) {
     const ingredientsList = document.getElementById('ingredients-filter-list')
     ingredientsList.innerHTML = '';
     const thirtyFirstItems = list.slice(0, 30)
-    thirtyFirstItems.map(ingredient => {
+    thirtyFirstItems.map(ingredientName => {
         const button = document.createElement('button');
         button.setAttribute('class', 'list-button')
-        button.innerHTML = ingredient;
+        button.innerHTML = ingredientName;
         button.addEventListener('click', (e) => {
-            console.log("click");
-            button.focus();
+            createTag(ingredientName)
+            displayedRecipes = displayedRecipes.filter(recipe => {
+                return recipe.ingredients.some(ingredient => ingredient.ingredient.toLowerCase().includes(ingredientName.toLowerCase()))
+            })
+            displayRecipes(displayedRecipes)
+            
+            
         })
         ingredientsList.appendChild(button)
     })
@@ -81,7 +85,7 @@ function createTag(tag) {
     `
     tagContainer.style.backgroundColor = 'var(--blue)'
     tagSection.appendChild(tagContainer)
-}
+} 
 
 async function handleFiltersSearch(items) {
     const ingredientsList = document.getElementById('ingredients-filter-list')
@@ -145,7 +149,6 @@ async function handleSearchInput() {
 
     searchInput.addEventListener('keyup', (e) => {
         const inputString = e.target.value;
-        console.log(displayedRecipes);
         if(inputString.length > 2 ) {
             getSearchedRecipes(inputString, displayedRecipes).then(results => {
                 displayedRecipes = results;

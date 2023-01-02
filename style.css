@@ -144,6 +144,10 @@ header h1 {
     text-align: start;
 }
 
+.filter-list button:hover {
+    background-color:rgba(138, 138, 138, 0.30) ;
+}
+
 .filter-list button:first-letter {
     text-transform: uppercase;
 }
