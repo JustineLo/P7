@@ -151,7 +151,7 @@ function createTag(tag, filterCategory) {
     const tagCloseButton = document.createElement('button');
     tagCloseButton.innerHTML = `<i class="fa-regular fa-circle-xmark"></i>`
     tagCloseButton.addEventListener('click', (e) => {
-        e.target.parentElement.parentElement.remove()
+        tagContainer.remove();
         displayedRecipes = recipes;
         displayRecipes(displayedRecipes)
     })
