@@ -40,12 +40,11 @@ function initOneFilterContainer(filterCategory, list) {
     // filter list on input
     filterInput.addEventListener('keyup', (e) => {
         const inputString = e.target.value;
-        const results = list.filter(item => item.toLocaleLowerCase().includes(inputString.toLocaleLowerCase()))
-        displayFilterList(filterCategory, results)
+        displayFilterList(filterCategory, inputString)
     })
 }
 
-function openFilterList(filterCategory, filterDOMElements, list) {
+function openFilterList(filterCategory) {
     
     // close all other lists
     const otherFilters = filters.filter(filter => filter != filterCategory);
@@ -64,7 +63,7 @@ function openFilterList(filterCategory, filterDOMElements, list) {
     selectedFilter.filterInput.style.display = "flex";
     selectedFilter.filterInput.focus();
     
-    displayFilterList(filterCategory, list)
+    displayFilterList(filterCategory)
 }
 
 function closeFilterList(filterDOMElements) {
@@ -79,16 +78,34 @@ function closeFilterList(filterDOMElements) {
     filterLabel.style.display = 'block';
 }
 
-function displayFilterList(filterCategory, list) {
-    const filterList = document.getElementById(`${filterCategory}-filter-list`)
-    const thirtyFirstItems = list.slice(0, 30);
+function displayFilterList(filterCategory, inputString) {
+    const filterListDOM = document.getElementById(`${filterCategory}-filter-list`)
+    let filterListItems = [];
 
-    filterList.innerHTML = '';
+    switch(filterCategory) {
+        case 'ingredients':
+            filterListItems = getIngredientsList(displayedRecipes);
+            break;
+        case 'appliances':
+            filterListItems = getAppliancesList(displayedRecipes);
+            break;
+        case 'ustensils':
+            filterListItems = getUstensilsList(displayedRecipes);
+            break;
+    }
+
+    if(inputString) {
+        filterListItems = filterListItems.filter(item => item.toLocaleLowerCase().includes(inputString.toLocaleLowerCase()))
+    }
+
+    const thirtyFirstItems = filterListItems.slice(0, 30);
+
+    filterListDOM.innerHTML = '';
     thirtyFirstItems.map(item => {
         const button = document.createElement('button');
         button.setAttribute('class', 'list-button')
         button.innerHTML = item;
-        filterList.appendChild(button);
+        filterListDOM.appendChild(button);
 
         button.addEventListener('click', () => {
             createTag(item, filterCategory);
