@@ -206,9 +206,7 @@ async function displayOneRecipe(recipe) {
     const recipeContainer = document.createElement('div');
     recipeContainer.setAttribute('class', 'recipe-container');
     recipeContainer.innerHTML = ` 
-        <div class="recipe-img">
-           
-        </div>
+        <div class="recipe-img"></div>
         <div class="recipe-info">
             <div class="recipe-header">
                 <h3>${recipe.name}</h3>
