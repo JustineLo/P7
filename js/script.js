@@ -76,7 +76,7 @@ function displayFilterList(filterCategory, list) {
         filterList.appendChild(button);
 
         button.addEventListener('click', () => {
-            createTag(item);
+            createTag(item, filterCategory);
             displayedRecipes = getFilteredRecipes(displayedRecipes, item, filterCategory);
             displayRecipes(displayedRecipes);
         })
@@ -130,10 +130,21 @@ function getRecipesFilteredByUstensils(recipes, item) {
     })
 }
 
-function createTag(tag) {
+function createTag(tag, filterCategory) {
     const tagSection = document.getElementById('tags-section')
     const tagContainer = document.createElement('div');
     tagContainer.setAttribute('class', 'tag-container');
+    let color = 'blue'
+    console.log(filterCategory);
+    switch(filterCategory) {
+        case 'appliances':
+            color = 'green'
+            break;
+        case 'ustensils':
+            color = 'red'
+            break;
+    }
+    tagContainer.style.backgroundColor = `var(--${color})`;
 
     const tagLabel = document.createElement('p');
     tagLabel.innerHTML = tag;
@@ -147,7 +158,6 @@ function createTag(tag) {
    
     tagContainer.appendChild(tagLabel)
     tagContainer.appendChild(tagCloseButton)
-    tagContainer.style.backgroundColor = 'var(--blue)'
     tagSection.appendChild(tagContainer)
 } 
 
