@@ -6,10 +6,10 @@ let displayedRecipes = recipes;
 async function initFiltersContainers() {
     const ingredientsList = getIngredientsList(displayedRecipes);
     initOneFilterContainer('ingredients', ingredientsList);
-    const appliancesList = getIngredientsList(displayedRecipes);
-    initOneFilterContainer('appliances', ingredientsList);
-    const ustensilsList = getIngredientsList(displayedRecipes);
-    initOneFilterContainer('ustensils', ingredientsList);
+    const appliancesList = getAppliancesList(displayedRecipes);
+    initOneFilterContainer('appliances', appliancesList);
+    const ustensilsList = getUstensilsList(displayedRecipes);
+    initOneFilterContainer('ustensils', ustensilsList);
 }
 
 function initOneFilterContainer(filterCategory, list) {
@@ -20,6 +20,7 @@ function initOneFilterContainer(filterCategory, list) {
     const filterList = document.getElementById(`${filterCategory}-filter-list`)
     const filterDOMElements = { filterContainer, filterLabel, filterInput, filterChevron, filterList }
 
+    // open/close filter list on click
     filterContainer.addEventListener('click', () => {
         if(getComputedStyle(filterList).display == "none") {
             openFilterList(filterCategory, filterDOMElements, list)
@@ -28,6 +29,7 @@ function initOneFilterContainer(filterCategory, list) {
         }
     })
 
+    // filter list on input
     filterInput.addEventListener('keyup', (e) => {
         const inputString = e.target.value;
         const results = list.filter(item => item.toLocaleLowerCase().includes(inputString.toLocaleLowerCase()))
@@ -80,16 +82,28 @@ function displayFilterList(filterCategory, list) {
     })
 }
 
-function getRecipesFilteredByIngredients(recipes, item) {
-    return recipes.filter(recipe => {
-        return recipe.ingredients.some(ingredient => ingredient.ingredient.toLowerCase().includes(item.toLowerCase()))
-    })
-}
-
 function getIngredientsList(recipesList) {
     const ingredients = recipesList.map(recipe => recipe.ingredients).flat()
     const uniqueIngredients = [...new Set(ingredients.map(ingredient => ingredient.ingredient.toLocaleLowerCase()))]
     return uniqueIngredients
+}
+
+function getAppliancesList(recipesList) {
+    const appliances = recipesList.map(recipe => recipe.appliance)
+    const uniqueAppliances = [...new Set(appliances.map(appliance => appliance.toLocaleLowerCase()))]
+    return uniqueAppliances
+}
+
+function getUstensilsList(recipesList) {
+    const ustensils = recipesList.map(recipe => recipe.ustensils).flat();
+    const uniqueUstensils = [...new Set(ustensils.map(ustensil => ustensil.toLocaleLowerCase()))]
+    return uniqueUstensils
+}
+
+function getRecipesFilteredByIngredients(recipes, item) {
+    return recipes.filter(recipe => {
+        return recipe.ingredients.some(ingredient => ingredient.ingredient.toLowerCase().includes(item.toLowerCase()))
+    })
 }
 
 function createTag(tag) {
