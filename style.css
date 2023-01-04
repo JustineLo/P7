@@ -76,13 +76,9 @@ header h1 {
     border-radius: 5px;
 }
 
-.filter-container {
-    background-color: var(--blue);
-    width: 223px;
-    color: white;
-    border-radius: 5px;
-    cursor: pointer;
-    height: 69px;
+#filters-section {
+    display: flex;
+    gap: 20px;
 }
 
 .filter-select {
@@ -104,10 +100,6 @@ header h1 {
     height: 100%;
 }
 
-#ingredients-filter-input {
-    display: none;
-}
-
 .filter-input {
     background: none;
     border: none;
@@ -120,12 +112,19 @@ header h1 {
     z-index: 1000;
 }
 
-#ingredients-filter-list {
+#ingredients-filter-list, #appliances-filter-list, #ustensils-filter-list, #ingredients-filter-input, #appliances-filter-input, #ustensils-filter-input {
     display: none;
 }
 
+.filter-container {
+    width: 223px;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    height: 69px;
+}
+
 .filter-list {
-    background-color: var(--blue);
     border-radius: 5px;
     width: 667px;
     height: 304px;
@@ -133,6 +132,18 @@ header h1 {
     bottom: 5px;
     flex-wrap: wrap;
     padding: 19px;
+}
+
+#ingredients-filter-container.filter-container, #ingredients-filter-container.filter-list {
+    background-color: var(--blue);
+}
+
+#appliances-filter-container.filter-container, #appliances-filter-container.filter-list {
+    background-color: var(--green);
+}
+
+#ustensils-filter-container.filter-container, #ustensils-filter-container.filter-list {
+    background-color: var(--red);
 }
 
 .filter-list button {

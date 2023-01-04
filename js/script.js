@@ -6,6 +6,10 @@ let displayedRecipes = recipes;
 async function initFiltersContainers() {
     const ingredientsList = getIngredientsList(displayedRecipes);
     initOneFilterContainer('ingredients', ingredientsList);
+    const appliancesList = getIngredientsList(displayedRecipes);
+    initOneFilterContainer('appliances', ingredientsList);
+    const ustensilsList = getIngredientsList(displayedRecipes);
+    initOneFilterContainer('ustensils', ingredientsList);
 }
 
 function initOneFilterContainer(filterCategory, list) {
