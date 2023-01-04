@@ -22,7 +22,7 @@ function initOneFilterContainer(filterCategory, list) {
 
     filterContainer.addEventListener('click', () => {
         if(getComputedStyle(filterList).display == "none") {
-            openFilterList(filterDOMElements, list)
+            openFilterList(filterCategory, filterDOMElements, list)
         } else {
             closeFilterList(filterDOMElements)
         }
@@ -35,7 +35,7 @@ function initOneFilterContainer(filterCategory, list) {
     })
 }
 
-function openFilterList(filterDOMElements, list) {
+function openFilterList(filterCategory, filterDOMElements, list) {
     const {filterChevron, filterContainer, filterList, filterInput, filterLabel} = filterDOMElements;
 
     filterChevron.classList.remove('fa-chevron-down')
@@ -46,7 +46,7 @@ function openFilterList(filterDOMElements, list) {
     filterInput.style.display = "flex";
     filterInput.focus();
     
-    displayFilterList('ingredients', list)
+    displayFilterList(filterCategory, list)
 }
 
 function closeFilterList(filterDOMElements) {
