@@ -5,10 +5,11 @@ let displayedRecipes = recipes;
 
 async function initFiltersContainers() {
     const ingredientsList = getIngredientsList(displayedRecipes);
-    initOneFilterContainer('ingredients', ingredientsList);
     const appliancesList = getAppliancesList(displayedRecipes);
-    initOneFilterContainer('appliances', appliancesList);
     const ustensilsList = getUstensilsList(displayedRecipes);
+    
+    initOneFilterContainer('ingredients', ingredientsList);
+    initOneFilterContainer('appliances', appliancesList);
     initOneFilterContainer('ustensils', ustensilsList);
 }
 
@@ -76,7 +77,7 @@ function displayFilterList(filterCategory, list) {
 
         button.addEventListener('click', () => {
             createTag(item);
-            displayedRecipes = getRecipesFilteredByIngredients(displayedRecipes, item);
+            displayedRecipes = getFilteredRecipes(displayedRecipes, item, filterCategory);
             displayRecipes(displayedRecipes);
         })
     })
@@ -100,9 +101,32 @@ function getUstensilsList(recipesList) {
     return uniqueUstensils
 }
 
+function getFilteredRecipes(recipes, item, filterCategory) {
+    switch(filterCategory) {
+        case 'ingredients':
+            return getRecipesFilteredByIngredients(recipes, item)
+        case 'appliances':
+            return getRecipesFilteredByAppliances(recipes, item)
+        case 'ustensils':
+            return getRecipesFilteredByUstensils(recipes, item)
+    }
+}
+
 function getRecipesFilteredByIngredients(recipes, item) {
     return recipes.filter(recipe => {
         return recipe.ingredients.some(ingredient => ingredient.ingredient.toLowerCase().includes(item.toLowerCase()))
+    })
+}
+
+function getRecipesFilteredByAppliances(recipes, item) {
+    return recipes.filter(recipe => {
+        return recipe.appliance.toLowerCase().includes(item.toLowerCase())
+    })
+}
+
+function getRecipesFilteredByUstensils(recipes, item) {
+    return recipes.filter(recipe => {
+        return recipe.ustensils.some(ustensil => ustensil.toLowerCase().includes(item.toLowerCase()))
     })
 }
 
