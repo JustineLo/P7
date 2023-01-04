@@ -2,12 +2,12 @@ import recipes from './recipes.js'
 import { handleTags } from './tags.js'
 
 let displayedRecipes = recipes;
+let tags = [];
 
-async function initFiltersContainers() {
+function initFiltersContainers() {
     const ingredientsList = getIngredientsList(displayedRecipes);
     const appliancesList = getAppliancesList(displayedRecipes);
     const ustensilsList = getUstensilsList(displayedRecipes);
-    
     initOneFilterContainer('ingredients', ingredientsList);
     initOneFilterContainer('appliances', appliancesList);
     initOneFilterContainer('ustensils', ustensilsList);
@@ -77,6 +77,7 @@ function displayFilterList(filterCategory, list) {
 
         button.addEventListener('click', () => {
             createTag(item, filterCategory);
+            tags.push({item, filterCategory});
             displayedRecipes = getFilteredRecipes(displayedRecipes, item, filterCategory);
             displayRecipes(displayedRecipes);
         })
@@ -130,12 +131,19 @@ function getRecipesFilteredByUstensils(recipes, item) {
     })
 }
 
+function getRecipesFilteredAllAtOnce(recipes, tags) {
+    let filteredRecipes = recipes;
+    tags.forEach(tag => {
+        filteredRecipes = getFilteredRecipes(filteredRecipes, tag.item, tag.filterCategory)
+    })
+    return filteredRecipes
+}
+
 function createTag(tag, filterCategory) {
     const tagSection = document.getElementById('tags-section')
     const tagContainer = document.createElement('div');
     tagContainer.setAttribute('class', 'tag-container');
-    let color = 'blue'
-    console.log(filterCategory);
+    let color = 'blue';
     switch(filterCategory) {
         case 'appliances':
             color = 'green'
@@ -152,7 +160,8 @@ function createTag(tag, filterCategory) {
     tagCloseButton.innerHTML = `<i class="fa-regular fa-circle-xmark"></i>`
     tagCloseButton.addEventListener('click', (e) => {
         tagContainer.remove();
-        displayedRecipes = recipes;
+        tags = tags.filter(tagObject => tagObject.item !== tag);
+        displayedRecipes = getRecipesFilteredAllAtOnce(recipes, tags);
         displayRecipes(displayedRecipes)
     })
    
@@ -192,34 +201,30 @@ async function displayOneRecipe(recipe) {
     document.getElementById('recipes-section').appendChild(recipeContainer)
 }
 
-async function displayRecipes(results) {
+function displayRecipes(results) {
     if(results.length === 0) {
         return handleZeroResults()
     } else {
         document.getElementById('recipes-section').innerHTML = '';
         return results.map(recipe => displayOneRecipe(recipe))
     }
-    
 }
 
-async function handleSearchInput() {
-    const searchInput = document.getElementById('search-input')
-
+function handleSearchInput(recipes) {
+    const searchInput = document.getElementById('search-input');
     searchInput.addEventListener('keyup', (e) => {
         const inputString = e.target.value;
+        recipes = getRecipesFilteredAllAtOnce(recipes, tags);
         if(inputString.length > 2 ) {
-            getSearchedRecipes(inputString, displayedRecipes).then(results => {
-                displayedRecipes = results;
-                displayRecipes(displayedRecipes);
-            })
+            displayedRecipes = getSearchedRecipes(inputString, recipes);
         } else {
             displayedRecipes = recipes;
-            displayRecipes(displayedRecipes);
         }
+        displayRecipes(displayedRecipes);
     })
 }
 
-async function getSearchedRecipes(inputString, displayedRecipes) {
+function getSearchedRecipes(inputString, displayedRecipes) {
     const results = displayedRecipes.filter(recipe => {
         const inputStringLowerCase = inputString.toLowerCase()
         const checkRecipeName = recipe.name.toLowerCase().includes(inputStringLowerCase)
@@ -232,16 +237,16 @@ async function getSearchedRecipes(inputString, displayedRecipes) {
 }
 
 
-async function handleZeroResults() {
+function handleZeroResults() {
     const recipesSection = document.getElementById('recipes-section')
     recipesSection.innerHTML = `Aucune recette ne correspond à votre critère... vous pouvez
     chercher « tarte aux pommes », « poisson », etc.`
 }
 
-async function init() {
+function init() {
     initFiltersContainers()
     displayRecipes(recipes);
-    handleSearchInput()
+    handleSearchInput(displayedRecipes)
     handleTags()
 }
 
