@@ -27,7 +27,7 @@ function initOneFilterContainer(filterCategory, list) {
     filterInput.addEventListener('keyup', (e) => {
         const inputString = e.target.value;
         const results = list.filter(item => item.toLocaleLowerCase().includes(inputString.toLocaleLowerCase()))
-        displayIngredientsList(results)
+        displayFilterList('ingredients', results)
     })
 }
 
@@ -42,7 +42,7 @@ function openFilterList(filterDOMElements, list) {
     filterInput.style.display = "flex";
     filterInput.focus();
     
-    displayIngredientsList(list)
+    displayFilterList('ingredients', list)
 }
 
 function closeFilterList(filterDOMElements) {
@@ -57,22 +57,28 @@ function closeFilterList(filterDOMElements) {
     filterLabel.style.display = 'block';
 }
 
-function displayIngredientsList(list) {
-    const ingredientsList = document.getElementById('ingredients-filter-list')
-    ingredientsList.innerHTML = '';
-    const thirtyFirstItems = list.slice(0, 30)
-    thirtyFirstItems.map(ingredientName => {
+function displayFilterList(filterCategory, list) {
+    const filterList = document.getElementById(`${filterCategory}-filter-list`)
+    const thirtyFirstItems = list.slice(0, 30);
+
+    filterList.innerHTML = '';
+    thirtyFirstItems.map(item => {
         const button = document.createElement('button');
         button.setAttribute('class', 'list-button')
-        button.innerHTML = ingredientName;
-        button.addEventListener('click', (e) => {
-            createTag(ingredientName)
-            displayedRecipes = displayedRecipes.filter(recipe => {
-                return recipe.ingredients.some(ingredient => ingredient.ingredient.toLowerCase().includes(ingredientName.toLowerCase()))
-            })
-            displayRecipes(displayedRecipes)
+        button.innerHTML = item;
+        filterList.appendChild(button);
+
+        button.addEventListener('click', () => {
+            createTag(item);
+            displayedRecipes = getRecipesFilteredByIngredients(displayedRecipes, item);
+            displayRecipes(displayedRecipes);
         })
-        ingredientsList.appendChild(button)
+    })
+}
+
+function getRecipesFilteredByIngredients(recipes, item) {
+    return recipes.filter(recipe => {
+        return recipe.ingredients.some(ingredient => ingredient.ingredient.toLowerCase().includes(item.toLowerCase()))
     })
 }
 
@@ -102,22 +108,6 @@ function createTag(tag) {
     tagContainer.style.backgroundColor = 'var(--blue)'
     tagSection.appendChild(tagContainer)
 } 
-
-async function handleFiltersSearch(items) {
-    const ingredientsList = document.getElementById('ingredients-filter-list')
-    const filterInput = document.getElementById('ingredients-filter-input')
-    filterInput.addEventListener('keyup', (e) => {
-        const inputString = e.target.value;
-        const results = items.filter(item => item.toLocaleLowerCase().includes(inputString.toLocaleLowerCase()))
-        ingredientsList.innerHTML = '';
-        results.map(ingredient => {
-            const button = document.createElement('button');
-            button.setAttribute('class', 'list-button')
-            button.innerHTML = ingredient;
-            ingredientsList.appendChild(button)
-        })
-    })
-}
 
 async function displayOneRecipe(recipe) {
     const recipeContainer = document.createElement('div');
