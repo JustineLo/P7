@@ -33,7 +33,7 @@ function initOneFilterContainer(filterCategory, list) {
     filterInput.addEventListener('keyup', (e) => {
         const inputString = e.target.value;
         const results = list.filter(item => item.toLocaleLowerCase().includes(inputString.toLocaleLowerCase()))
-        displayFilterList('ingredients', results)
+        displayFilterList(filterCategory, results)
     })
 }
 
