@@ -1,6 +1,7 @@
 import recipes from './recipes.js'
 import { handleTags } from './tags.js'
 
+const filters = ["ingredients", "appliances", "ustensils"];
 let displayedRecipes = recipes;
 let tags = [];
 
@@ -13,20 +14,26 @@ function initFiltersContainers() {
     initOneFilterContainer('ustensils', ustensilsList);
 }
 
-function initOneFilterContainer(filterCategory, list) {
+function getFilterAllDOMElements(filterCategory) {
     const filterContainer = document.getElementById(`${filterCategory}-filter-container`)
     const filterLabel = document.getElementById(`${filterCategory}-filter-label`)
     const filterInput = document.getElementById(`${filterCategory}-filter-input`)
     const filterChevron = document.getElementById(`${filterCategory}-filter-chevron`)
     const filterList = document.getElementById(`${filterCategory}-filter-list`)
-    const filterDOMElements = { filterContainer, filterLabel, filterInput, filterChevron, filterList }
+
+    return { filterContainer, filterLabel, filterInput, filterChevron, filterList }
+}
+
+function initOneFilterContainer(filterCategory, list) {
+    const filterDOMElements = getFilterAllDOMElements(filterCategory);
+    const { filterContainer, filterInput, filterList } = filterDOMElements;
 
     // open/close filter list on click
     filterContainer.addEventListener('click', () => {
         if(getComputedStyle(filterList).display == "none") {
-            openFilterList(filterCategory, filterDOMElements, list)
+            openFilterList(filterCategory, filterDOMElements, list);
         } else {
-            closeFilterList(filterDOMElements)
+            closeFilterList(filterDOMElements);
         }
     })
 
@@ -39,15 +46,23 @@ function initOneFilterContainer(filterCategory, list) {
 }
 
 function openFilterList(filterCategory, filterDOMElements, list) {
-    const {filterChevron, filterContainer, filterList, filterInput, filterLabel} = filterDOMElements;
+    
+    // close all other lists
+    const otherFilters = filters.filter(filter => filter != filterCategory);
+    otherFilters.map(filter => {
+        const filterDOMElements = getFilterAllDOMElements(filter);
+        closeFilterList(filterDOMElements);
+    })
 
-    filterChevron.classList.remove('fa-chevron-down')
-    filterChevron.classList.add('fa-chevron-up')
-    filterLabel.style.display = 'none';
-    filterList.style.display = 'flex';
-    filterContainer.style.width = '667px'
-    filterInput.style.display = "flex";
-    filterInput.focus();
+    // display selected list
+    const selectedFilter = getFilterAllDOMElements(filterCategory);
+    selectedFilter.filterChevron.classList.remove('fa-chevron-down')
+    selectedFilter.filterChevron.classList.add('fa-chevron-up')
+    selectedFilter.filterLabel.style.display = 'none';
+    selectedFilter.filterList.style.display = 'flex';
+    selectedFilter.filterContainer.style.width = '667px'
+    selectedFilter.filterInput.style.display = "flex";
+    selectedFilter.filterInput.focus();
     
     displayFilterList(filterCategory, list)
 }
