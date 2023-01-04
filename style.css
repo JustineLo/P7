@@ -134,15 +134,15 @@ header h1 {
     padding: 19px;
 }
 
-#ingredients-filter-container.filter-container, #ingredients-filter-container.filter-list {
+#ingredients-filter-container, #ingredients-filter-list {
     background-color: var(--blue);
 }
 
-#appliances-filter-container.filter-container, #appliances-filter-container.filter-list {
+#appliances-filter-container, #appliances-filter-list {
     background-color: var(--green);
 }
 
-#ustensils-filter-container.filter-container, #ustensils-filter-container.filter-list {
+#ustensils-filter-container, #ustensils-filter-list {
     background-color: var(--red);
 }
 
