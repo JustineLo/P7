@@ -256,14 +256,14 @@ function handleSearchInput(recipes) {
 
 function getSearchedRecipes(inputString, displayedRecipes) {
     const results = displayedRecipes.filter(recipe => {
-        const inputStringLowerCase = inputString.toLowerCase()
-        const checkRecipeName = recipe.name.toLowerCase().includes(inputStringLowerCase)
-        const checkRecipeIngredients = recipe.ingredients.some(ingredient => ingredient.ingredient.toLowerCase().includes(inputStringLowerCase))
-        const checkRecipeDescription = recipe.description.toLowerCase().includes(inputStringLowerCase)
-        return checkRecipeName || checkRecipeIngredients || checkRecipeDescription
-    })
+        const inputStringLowerCase = inputString.toLowerCase();
+        const checkRecipeName = recipe.name.toLowerCase().includes(inputStringLowerCase);
+        const checkRecipeIngredients = recipe.ingredients.some(ingredient => ingredient.ingredient.toLowerCase().includes(inputStringLowerCase));
+        const checkRecipeDescription = recipe.description.toLowerCase().includes(inputStringLowerCase);
+        return checkRecipeName || checkRecipeIngredients || checkRecipeDescription;
+    });
 
-    return results
+    return results;
 }
 
 
