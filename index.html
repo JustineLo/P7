@@ -20,11 +20,34 @@
                 <i class="fa-solid fa-magnifying-glass"></i>
             </div>
         </section>
+        <section id="tags-section"></section>
         <section id="filters-section">
+            <!-- ingredients filter -->
             <div id="ingredients-filter-container" class="filter-container">
-                <!-- <h4>Ingrédients</h4> -->
-                <input id="ingredients-filter-input" class="filter-input" type="text" id="ingredient-1" name="ingredient">
-                <i class="fa-solid fa-chevron-down"></i>
+                <div class="filter-select">
+                    <h4 id="ingredients-filter-label">Ingrédients</h4>
+                    <input id="ingredients-filter-input" class="filter-input" type="text" id="ingredient-1" name="ingredient" />
+                    <i id="ingredients-filter-chevron" class="fa-solid fa-chevron-down"></i>
+                </div>
+                <div id="ingredients-filter-list" class="filter-list"></div>
+            </div>
+            <!-- appliances filter -->
+            <div id="appliances-filter-container" class="filter-container">
+                <div class="filter-select">
+                    <h4 id="appliances-filter-label">Appareils</h4>
+                    <input id="appliances-filter-input" class="filter-input" type="text" id="appliances-1" name="appliances" />
+                    <i id="appliances-filter-chevron" class="fa-solid fa-chevron-down"></i>
+                </div>
+                <div id="appliances-filter-list" class="filter-list"></div>
+            </div>
+            <!-- ustensils filter -->
+            <div id="ustensils-filter-container" class="filter-container">
+                <div class="filter-select">
+                    <h4 id="ustensils-filter-label">Ustensiles</h4>
+                    <input id="ustensils-filter-input" class="filter-input" type="text" id="ustensils-1" name="ustensils" />
+                    <i id="ustensils-filter-chevron" class="fa-solid fa-chevron-down"></i>
+                </div>
+                <div id="ustensils-filter-list" class="filter-list"></div>
             </div>
         </section>
         <section id="recipes-section">
