@@ -255,25 +255,25 @@ function handleSearchInput(recipes) {
 }
 
 function getSearchedRecipes(inputString, displayedRecipes) {
-    let results = []
+    let results = [];
 
     for(let i = 0; i < displayedRecipes.length; i++) {
         let added = false;
-        const recipe = displayedRecipes[i]
+        const recipe = displayedRecipes[i];
 
         // check if name contains inputString
         if(recipe.name.toLowerCase().includes(inputString.toLowerCase())) {
-            results.push(recipe)
+            results.push(recipe);
             added = true;
         }
 
         // check if ingredients contains inputString
         if(!added) {
-            const ingredients = recipe.ingredients
+            const ingredients = recipe.ingredients;
             for(let j = 0; j < ingredients.length; j++) {
-                const ingredient = ingredients[j].ingredient
+                const ingredient = ingredients[j].ingredient;
                 if(ingredient.toLowerCase().includes(inputString.toLowerCase())) {
-                    results.push(recipe)
+                    results.push(recipe);
                     added = true;
                 }
             }
@@ -281,15 +281,15 @@ function getSearchedRecipes(inputString, displayedRecipes) {
 
         // check if description contains inputString
         if(!added) {
-            const description = recipe.description
+            const description = recipe.description;
             if(description.toLowerCase().includes(inputString.toLowerCase())) {
-                results.push(recipe)
+                results.push(recipe);
                 added = true;
             }
         }
     }
 
-    return results
+    return results;
 }
 
 
