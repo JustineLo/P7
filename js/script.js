@@ -118,10 +118,8 @@ function displayFilterList(filterCategory, inputString) {
     );
   }
 
-  const thirtyFirstItems = filterListItems.slice(0, 30);
-
   filterListDOM.innerHTML = "";
-  thirtyFirstItems.map((item) => {
+  filterListItems.map((item) => {
     const button = document.createElement("button");
     button.setAttribute("class", "list-button");
     button.innerHTML = item;
