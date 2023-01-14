@@ -306,10 +306,11 @@ function getSearchedRecipes(inputString, displayedRecipes) {
 
   for (let i = 0; i < displayedRecipes.length; i++) {
     let added = false;
+    const input = inputString.toLowerCase();
     const recipe = displayedRecipes[i];
 
     // check if name contains inputString
-    if (recipe.name.toLowerCase().includes(inputString.toLowerCase())) {
+    if (recipe.name.toLowerCase().includes(input)) {
       results.push(recipe);
       added = true;
     }
@@ -319,7 +320,7 @@ function getSearchedRecipes(inputString, displayedRecipes) {
       const ingredients = recipe.ingredients;
       for (let j = 0; j < ingredients.length; j++) {
         const ingredient = ingredients[j].ingredient;
-        if (ingredient.toLowerCase().includes(inputString.toLowerCase())) {
+        if (ingredient.toLowerCase().includes(input)) {
           results.push(recipe);
           added = true;
         }
@@ -329,12 +330,13 @@ function getSearchedRecipes(inputString, displayedRecipes) {
     // check if description contains inputString
     if (!added) {
       const description = recipe.description;
-      if (description.toLowerCase().includes(inputString.toLowerCase())) {
+      if (description.toLowerCase().includes(input)) {
         results.push(recipe);
         added = true;
       }
     }
   }
+  mainSearchRecipes = results;
 
   return results;
 }
