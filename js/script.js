@@ -1,5 +1,4 @@
 import recipes from "./recipes.js";
-import { handleTags } from "./tags.js";
 
 const filters = ["ingredients", "appliances", "ustensils"];
 let displayedRecipes = recipes;
@@ -330,7 +329,6 @@ function init() {
   initFiltersContainers();
   displayRecipes(recipes);
   handleSearchInput(displayedRecipes);
-  handleTags();
 }
 
 init();
