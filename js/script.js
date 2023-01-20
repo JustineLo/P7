@@ -228,7 +228,7 @@ function createTag(tag, filterCategory) {
   tagLabel.innerHTML = tag;
   const tagCloseButton = document.createElement("button");
   tagCloseButton.innerHTML = `<i class="fa-regular fa-circle-xmark"></i>`;
-  tagCloseButton.addEventListener("click", (e) => {
+  tagCloseButton.addEventListener("click", () => {
     tagContainer.remove();
     tags = tags.filter((tagObject) => tagObject.item !== tag);
     displayedRecipes = getRecipesFilteredAllAtOnce(mainSearchRecipes, tags);
