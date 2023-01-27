@@ -41,6 +41,7 @@ function initOneFilterContainer(filterCategory, list) {
   // open/close filter list on click
   filterContainer.addEventListener("click", () => {
     if (getComputedStyle(filterList).display == "none") {
+      filterInput.value = "";
       openFilterList(filterCategory, filterDOMElements, list);
     } else {
       closeFilterList(filterDOMElements);
