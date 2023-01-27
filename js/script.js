@@ -1,5 +1,4 @@
 import recipes from "./recipes.js";
-import { handleTags } from "./tags.js";
 
 const filters = ["ingredients", "appliances", "ustensils"];
 let displayedRecipes = recipes;
@@ -234,7 +233,7 @@ function createTag(tag, filterCategory) {
   tagLabel.innerHTML = tag;
   const tagCloseButton = document.createElement("button");
   tagCloseButton.innerHTML = `<i class="fa-regular fa-circle-xmark"></i>`;
-  tagCloseButton.addEventListener("click", (e) => {
+  tagCloseButton.addEventListener("click", () => {
     tagContainer.remove();
     tags = tags.filter((tagObject) => tagObject.item !== tag);
     displayedRecipes = getRecipesFilteredAllAtOnce(mainSearchRecipes, tags);
@@ -336,7 +335,6 @@ function init() {
   initFiltersContainers();
   displayRecipes(recipes);
   handleSearchInput(displayedRecipes);
-  handleTags();
 }
 
 init();
