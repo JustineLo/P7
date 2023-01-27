@@ -1,5 +1,4 @@
 import recipes from "./recipes.js";
-import { handleTags } from "./tags.js";
 
 const filters = ["ingredients", "appliances", "ustensils"];
 let displayedRecipes = recipes;
@@ -42,6 +41,7 @@ function initOneFilterContainer(filterCategory, list) {
   // open/close filter list on click
   filterContainer.addEventListener("click", () => {
     if (getComputedStyle(filterList).display == "none") {
+      filterInput.value = "";
       openFilterList(filterCategory, filterDOMElements, list);
     } else {
       closeFilterList(filterDOMElements);
@@ -145,7 +145,7 @@ function getIngredientsList(recipesList) {
       ingredients.map((ingredient) => ingredient.ingredient.toLocaleLowerCase())
     ),
   ].sort();
-  return uniqueIngredients;
+  return removeSelectedTags(uniqueIngredients);
 }
 
 function getAppliancesList(recipesList) {
@@ -153,7 +153,7 @@ function getAppliancesList(recipesList) {
   const uniqueAppliances = [
     ...new Set(appliances.map((appliance) => appliance.toLocaleLowerCase())),
   ].sort();
-  return uniqueAppliances;
+  return removeSelectedTags(uniqueAppliances);
 }
 
 function getUstensilsList(recipesList) {
@@ -161,7 +161,13 @@ function getUstensilsList(recipesList) {
   const uniqueUstensils = [
     ...new Set(ustensils.map((ustensil) => ustensil.toLocaleLowerCase())),
   ].sort();
-  return uniqueUstensils;
+  return removeSelectedTags(uniqueUstensils);
+}
+
+function removeSelectedTags(list) {
+  return list.filter((item) => {
+    return !tags.some((tag) => tag.item == item);
+  });
 }
 
 function getFilteredRecipes(recipes, item, filterCategory) {
@@ -228,7 +234,7 @@ function createTag(tag, filterCategory) {
   tagLabel.innerHTML = tag;
   const tagCloseButton = document.createElement("button");
   tagCloseButton.innerHTML = `<i class="fa-regular fa-circle-xmark"></i>`;
-  tagCloseButton.addEventListener("click", (e) => {
+  tagCloseButton.addEventListener("click", () => {
     tagContainer.remove();
     tags = tags.filter((tagObject) => tagObject.item !== tag);
     displayedRecipes = getRecipesFilteredAllAtOnce(mainSearchRecipes, tags);
@@ -351,7 +357,6 @@ function init() {
   initFiltersContainers();
   displayRecipes(recipes);
   handleSearchInput(displayedRecipes);
-  handleTags();
 }
 
 init();
