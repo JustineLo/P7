@@ -144,24 +144,30 @@ function getIngredientsList(recipesList) {
     ...new Set(
       ingredients.map((ingredient) => ingredient.ingredient.toLocaleLowerCase())
     ),
-  ];
-  return uniqueIngredients;
+  ].sort();
+  return removeSelectedTags(uniqueIngredients);
 }
 
 function getAppliancesList(recipesList) {
   const appliances = recipesList.map((recipe) => recipe.appliance);
   const uniqueAppliances = [
     ...new Set(appliances.map((appliance) => appliance.toLocaleLowerCase())),
-  ];
-  return uniqueAppliances;
+  ].sort();
+  return removeSelectedTags(uniqueAppliances);
 }
 
 function getUstensilsList(recipesList) {
   const ustensils = recipesList.map((recipe) => recipe.ustensils).flat();
   const uniqueUstensils = [
     ...new Set(ustensils.map((ustensil) => ustensil.toLocaleLowerCase())),
-  ];
-  return uniqueUstensils;
+  ].sort();
+  return removeSelectedTags(uniqueUstensils);
+}
+
+function removeSelectedTags(list) {
+  return list.filter((item) => {
+    return !tags.some((tag) => tag.item == item);
+  });
 }
 
 function getFilteredRecipes(recipes, item, filterCategory) {
