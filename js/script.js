@@ -144,7 +144,7 @@ function getIngredientsList(recipesList) {
     ...new Set(
       ingredients.map((ingredient) => ingredient.ingredient.toLocaleLowerCase())
     ),
-  ];
+  ].sort();
   return uniqueIngredients;
 }
 
@@ -152,7 +152,7 @@ function getAppliancesList(recipesList) {
   const appliances = recipesList.map((recipe) => recipe.appliance);
   const uniqueAppliances = [
     ...new Set(appliances.map((appliance) => appliance.toLocaleLowerCase())),
-  ];
+  ].sort();
   return uniqueAppliances;
 }
 
@@ -160,7 +160,7 @@ function getUstensilsList(recipesList) {
   const ustensils = recipesList.map((recipe) => recipe.ustensils).flat();
   const uniqueUstensils = [
     ...new Set(ustensils.map((ustensil) => ustensil.toLocaleLowerCase())),
-  ];
+  ].sort();
   return uniqueUstensils;
 }
 
